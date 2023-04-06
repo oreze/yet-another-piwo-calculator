@@ -1,0 +1,8 @@
+{
+    "units": {
+        "bottles/cans": "bottles/cans",
+        "capacity-ml": "capacity (mililiters)",
+        "alcohol": "alcohol %",
+        "price": "price"
+    }
+}

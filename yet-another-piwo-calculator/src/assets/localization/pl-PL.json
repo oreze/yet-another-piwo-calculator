@@ -1,0 +1,6 @@
+{
+    "units": {
+        "bottles/cans": "butelki/puszki",
+        "capacity-ml": "pojemność (mililitry)"
+    }
+}
