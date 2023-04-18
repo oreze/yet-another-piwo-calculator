@@ -5,12 +5,23 @@ import App from './App.vue'
 import router from './router'
 
 import './assets/main.css'
-import 'ant-design-vue/dist/antd.css';
+import 'vuetify/styles'
 
-import Antd from 'ant-design-vue';
-import PiwoCalculatorVue from './components/PiwoCalculator.vue'
+import PiwoCalculatorVue from './components/BeerCalculator/BeerCalculator.vue'
 import { createI18n } from 'vue-i18n'
 import { defaultLocale, messages } from './config/localization'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import { faSun, faMoon } from '@fortawesome/free-regular-svg-icons'
+
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
+const vuetify = createVuetify({
+  components,
+  directives,
+})
 
 const i18n = createI18n({
   // something vue-i18n options here ...
@@ -20,18 +31,16 @@ const i18n = createI18n({
   messages
 });
 
-console.log(messages);
+library.add(faSun, faMoon)
 
-console.log(window.navigator.language)
 const app = createApp(App)
 
 app.component('PiwoCalculator', PiwoCalculatorVue)
-
-app.use(Antd)
+app.component('font-awesome-icon', FontAwesomeIcon)
 
 app.use(i18n)
+app.use(vuetify)
 app.use(createPinia())
 app.use(router)
-
 
 app.mount('#app')

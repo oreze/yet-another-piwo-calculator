@@ -24,3 +24,6 @@ a,
   }
 }
 
+.svg-inline--fa {
+  color: var(--color-icon)
+}
