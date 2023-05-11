@@ -8,14 +8,14 @@
     <form class="beer-calculator">
         <v-text-field 
             class="beer-calculator__input" 
-            v-model="props.itemCounter" 
+            v-model="beerCalculatorOptions.itemCounter" 
             type="number" :counter="10" 
             :label="t('units.bottles/cans')"
             required/>
 
         <v-text-field 
             class="beer-calculator__input" 
-            v-model="props.capacity" 
+            v-model="beerCalculatorOptions.capacity" 
             type="number" 
             :counter="10" 
             :label="t('units.capacity-ml')"
@@ -23,32 +23,59 @@
 
         <v-text-field 
             class="beer-calculator__input" 
-            v-model="props.alcohol" 
+            v-model="beerCalculatorOptions.alcohol" 
             type="number" 
             :label="t('units.alcohol')"
             required/>
 
         <v-text-field 
             class="beer-calculator__input" 
-            v-model="props.price" 
+            v-model="beerCalculatorOptions.price" 
             type="number" 
             :label="t('units.price')"
             required/>
     </form>
+    <p> {{  beerCalculatorResult }}</p>
 </template>
 
 <script setup lang="ts">
-    import { ref } from 'vue';
     import { useI18n } from 'vue-i18n';
-    import type BeerCalculatorProps from './Models/BeerCalculatorProps';
+    import { useBeerCalculator } from './Services/BeerCalculator';
+    import type { BeerCalculatorOptions } from './Models/BeerCalculatorOptions';
+    import { computed, ref } from 'vue';
+
+    interface BeerCalculatorProps {
+        itemCounter: number,
+        capacity: number,
+        alcohol: number,
+        price: number
+    }
 
     const { t } = useI18n()
+    const beerCalculator = useBeerCalculator();
 
     const props = withDefaults(defineProps<BeerCalculatorProps>(), {
         alcohol: 5,
         capacity: 500,
         itemCounter: 1,
         price: 10
+    })
+
+    const beerCalculatorOptions = ref<BeerCalculatorOptions>({
+        alcohol: props.alcohol,
+        capacity: props.capacity,
+        price: props.price
+    } as BeerCalculatorOptions);
+
+    const beerCalculatorResult = computed({
+        get() {
+            return beerCalculator.updateProfitability(beerCalculatorOptions.value);
+            console.log(beerCalculatorResult);
+        },
+        set(newValue) {
+            beerCalculatorResult.value = newValue;
+            console.log(beerCalculatorResult);
+        }
     })
 </script>
 

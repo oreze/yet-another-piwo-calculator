@@ -22,17 +22,16 @@
     flex-direction: column;
     margin: auto;
 
-    .&__welcome {
-      display: flex;
-      justify-content: center;
+    .home__welcome {
+      text-align: center;
       font-size: 5em;
     }
 
     .home__description {
-      
+      text-align: center;
     }
 
-    .piwo-calculator {
+    .beer-calculator {
       margin-top: 1em;;
     }
   }
