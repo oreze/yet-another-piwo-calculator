@@ -12,8 +12,6 @@ declare module '@vue/runtime-core' {
     AInputNumber: typeof import('ant-design-vue/es')['InputNumber']
     ASpace: typeof import('ant-design-vue/es')['Space']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
-    NavBar: typeof import('./src/components/nav/NavBar.vue')['default']
-    PiwoCalculator: typeof import('./src/components/PiwoCalculator.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

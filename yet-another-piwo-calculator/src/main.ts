@@ -7,7 +7,8 @@ import router from './router'
 import './assets/main.css'
 import 'vuetify/styles'
 
-import PiwoCalculatorVue from './components/BeerCalculator/BeerCalculator.vue'
+import BeerCalculatorVue from './components/BeerCalculator/BeerCalculator.vue'
+import BeerCalculatorResultVue from './components/BeerCalculator/BeerCalculatorResult/BeerCalculatorResult.vue'
 import { createI18n } from 'vue-i18n'
 import { defaultLocale, messages } from './config/localization'
 import {library} from '@fortawesome/fontawesome-svg-core'
@@ -35,8 +36,9 @@ library.add(faSun, faMoon)
 
 const app = createApp(App)
 
-app.component('PiwoCalculator', PiwoCalculatorVue)
-app.component('font-awesome-icon', FontAwesomeIcon)
+app.component('BeerCalculator', BeerCalculatorVue)
+  .component('BeerCalculatorResult', BeerCalculatorResultVue)
+  .component('font-awesome-icon', FontAwesomeIcon)
 
 app.use(i18n)
 app.use(vuetify)

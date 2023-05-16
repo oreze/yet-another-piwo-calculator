@@ -1,82 +1,56 @@
 <template>
-    <!-- <a-space direction="horizontal" class="piwo-calculator">
-            <a-input-number id="bottleInput" :addonAfter="t('units.bottles/cans')" v-model:value="value" :min="1" :max="1000" />
-            <a-input-number id="capacityInput" :addonAfter="t('units.capacity-ml')" v-model:value="value" :min="0.01" :max="1000000" :step="500" />
-            <a-input-number id="alcoholInput" :addonAfter="t('units.alcohol')" v-model:value="value" :min="0" :max="100" :precision="2" :step="0.05" />
-            <a-input-number id="priceInput" :addonAfter="t('units.price')" v-model:value="value" :min="0.01" :max="110" :precision="2" :step="0.5"/>
-        </a-space> -->
-    <form class="beer-calculator">
-        <v-text-field 
-            class="beer-calculator__input" 
-            v-model="beerCalculatorOptions.itemCounter" 
-            type="number" :counter="10" 
-            :label="t('units.bottles/cans')"
-            required/>
+    <div>
+        <form class="beer-calculator">
+            <v-text-field 
+                class="beer-calculator__input" 
+                v-model="beerCalculatorOptions.capacity" 
+                type="number" 
+                :counter="10" 
+                :label="t('units.capacity-ml')"
+                required/>
 
-        <v-text-field 
-            class="beer-calculator__input" 
-            v-model="beerCalculatorOptions.capacity" 
-            type="number" 
-            :counter="10" 
-            :label="t('units.capacity-ml')"
-            required/>
+            <v-text-field 
+                class="beer-calculator__input" 
+                v-model="beerCalculatorOptions.alcohol" 
+                type="number" 
+                :label="t('units.alcohol')"
+                required/>
 
-        <v-text-field 
-            class="beer-calculator__input" 
-            v-model="beerCalculatorOptions.alcohol" 
-            type="number" 
-            :label="t('units.alcohol')"
-            required/>
-
-        <v-text-field 
-            class="beer-calculator__input" 
-            v-model="beerCalculatorOptions.price" 
-            type="number" 
-            :label="t('units.price')"
-            required/>
-    </form>
-    <p> {{  beerCalculatorResult }}</p>
+            <v-text-field 
+                class="beer-calculator__input" 
+                v-model="beerCalculatorOptions.price" 
+                type="number" 
+                :label="t('units.price')"
+                required/>
+        </form>
+        <BeerCalculatorResult :factor="result"/>
+    </div>
 </template>
 
 <script setup lang="ts">
     import { useI18n } from 'vue-i18n';
     import { useBeerCalculator } from './Services/BeerCalculator';
     import type { BeerCalculatorOptions } from './Models/BeerCalculatorOptions';
-    import { computed, ref } from 'vue';
-
-    interface BeerCalculatorProps {
-        itemCounter: number,
-        capacity: number,
-        alcohol: number,
-        price: number
-    }
+    import { computed, ref, watch } from 'vue';
+    import { refDebounced, watchDebounced } from '@vueuse/core';
 
     const { t } = useI18n()
     const beerCalculator = useBeerCalculator();
 
-    const props = withDefaults(defineProps<BeerCalculatorProps>(), {
-        alcohol: 5,
-        capacity: 500,
-        itemCounter: 1,
-        price: 10
-    })
-
     const beerCalculatorOptions = ref<BeerCalculatorOptions>({
-        alcohol: props.alcohol,
-        capacity: props.capacity,
-        price: props.price
-    } as BeerCalculatorOptions);
+        alcohol: 1,
+        capacity: 2,
+        price: 3
+    });
 
-    const beerCalculatorResult = computed({
-        get() {
-            return beerCalculator.updateProfitability(beerCalculatorOptions.value);
-            console.log(beerCalculatorResult);
-        },
-        set(newValue) {
-            beerCalculatorResult.value = newValue;
-            console.log(beerCalculatorResult);
-        }
-    })
+    const result = ref(beerCalculator.updateProfitability(beerCalculatorOptions.value));
+    watchDebounced(
+        beerCalculatorOptions,
+        (options) => { result.value = beerCalculator.updateProfitability(options)},
+        { debounce: 1000, immediate: true, deep: true },   
+    );
+
+
 </script>
 
 <style scoped>
