@@ -23,7 +23,8 @@
                 :label="t('units.price')"
                 required/>
         </form>
-        <BeerCalculatorResult :factor="result"/>
+        <BeerCalculatorResult class="beer-calculator__result" :factor="result"/>
+        <button id="unmuteButton"></button>
     </div>
 </template>
 
@@ -31,8 +32,9 @@
     import { useI18n } from 'vue-i18n';
     import { useBeerCalculator } from './Services/BeerCalculator';
     import type { BeerCalculatorOptions } from './Models/BeerCalculatorOptions';
-    import { computed, ref, watch } from 'vue';
-    import { refDebounced, watchDebounced } from '@vueuse/core';
+    import { onMounted, ref } from 'vue';
+    import { watchDebounced } from '@vueuse/core';
+    import wino from '../../assets/wino.mp3'
 
     const { t } = useI18n()
     const beerCalculator = useBeerCalculator();
@@ -44,13 +46,12 @@
     });
 
     const result = ref(beerCalculator.updateProfitability(beerCalculatorOptions.value));
+
     watchDebounced(
         beerCalculatorOptions,
         (options) => { result.value = beerCalculator.updateProfitability(options)},
-        { debounce: 1000, immediate: true, deep: true },   
+        { debounce: 300, immediate: true, deep: true },   
     );
-
-
 </script>
 
 <style scoped>

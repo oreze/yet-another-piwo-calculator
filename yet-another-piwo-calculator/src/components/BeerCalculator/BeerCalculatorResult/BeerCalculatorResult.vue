@@ -1,9 +1,10 @@
 <template>
     <div>
-        <h2>Wow! Tym to można się najebać bracie!</h2>
-        <h3>Twój współczynnik najebania wynosi:</h3>
-        <h1>{{ props.factor }}</h1>
+        <h1>Wow! Tym to można się najebać bracie!</h1>
+        <h2>Twój współczynnik najebania wynosi:</h2>
+        <h2>{{ props.factor }}</h2>
     </div>
+
 </template>
 
 <script setup lang="ts">
@@ -17,7 +18,12 @@
 </script>
 
 <style scoped>
-
+    .beer-calculator__result {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 
 
