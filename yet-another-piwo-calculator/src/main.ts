@@ -9,6 +9,7 @@ import 'vuetify/styles'
 
 import BeerCalculatorVue from './components/BeerCalculator/BeerCalculator.vue'
 import BeerCalculatorResultVue from './components/BeerCalculator/BeerCalculatorResult/BeerCalculatorResult.vue'
+import BeerCalculatorItemVue from './components/BeerCalculator/BeerCalculatorItem/BeerCalculatorItem.vue'
 import { createI18n } from 'vue-i18n'
 import { defaultLocale, messages } from './config/localization'
 import {library} from '@fortawesome/fontawesome-svg-core'
@@ -38,6 +39,7 @@ const app = createApp(App)
 
 app.component('BeerCalculator', BeerCalculatorVue)
   .component('BeerCalculatorResult', BeerCalculatorResultVue)
+  .component('BeerCalculatorItem', BeerCalculatorItemVue)
   .component('font-awesome-icon', FontAwesomeIcon)
 
 app.use(i18n)
