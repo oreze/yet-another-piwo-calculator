@@ -1,6 +1,11 @@
 <template>
-    <div>
-        <img :draggable="true" class="item__image" :src="beerCalculatorItemOptions.url" @dragstart="draggedData = beerCalculatorItemOptions" @dragend="onDragStart">
+    <section>
+        <h2>Piwko list</h2>
+        <v-list class="items">
+            <v-list-item v-for="item in beerCalculatorItemsOptions">
+                <img :draggable="true" class="item__image" :src="item.url" @dragstart="draggedData = item" @dragend="onDragStart">
+            </v-list-item>
+        </v-list>
         
         <form class="beer-calculator" @drop="onDrop" @dragover.prevent>
             <v-text-field 
@@ -27,7 +32,7 @@
         </form>
         <BeerCalculatorResult class="beer-calculator__result" :factor="result"/>
         <button id="unmuteButton"></button>
-    </div>
+    </section>
 </template>
 
 <script setup lang="ts">
@@ -47,12 +52,18 @@ import type { BeerCalculatorItemOptions } from './BeerCalculatorItem/Models/Beer
         price: 44
     });
 
-    const beerCalculatorItemOptions = ref<BeerCalculatorItemOptions>({
+    const beerCalculatorItemsOptions = ref<[BeerCalculatorItemOptions]>([{
         url: 'https://sklep.spolemkielce.pl/wp-content/uploads/2020/04/perla_perla-export_piwo-56-procent-butelka-bzw_500ml.png',
         alcohol: 544,
         capacity: 42,
         price: 2
-    });
+    },
+    {
+        url: 'https://ocen-piwo.pl/upload/vip.webp',
+        alcohol: 542224,
+        capacity: 42,
+        price: 2
+    }]);
     
     const draggedData = ref<BeerCalculatorItemOptions>();
     const result = ref(beerCalculator.updateProfitability(beerCalculatorOptions.value));
@@ -64,14 +75,9 @@ import type { BeerCalculatorItemOptions } from './BeerCalculatorItem/Models/Beer
     );
 
     const onDrop = () => {
-        console.log('dragg ')
-        console.log(beerCalculatorOptions);
-
         beerCalculatorOptions.value.alcohol = draggedData.value?.alcohol;
         beerCalculatorOptions.value.capacity = draggedData.value?.capacity;
         beerCalculatorOptions.value.price = draggedData.value?.price;
-        console.log(beerCalculatorOptions);
-
     }
 </script>
 
@@ -93,9 +99,32 @@ import type { BeerCalculatorItemOptions } from './BeerCalculatorItem/Models/Beer
         }
     }
 
+    .items {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     .item__image {
         max-width: 10em;
         max-height: 10em;
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+    }
+
+    ul li {
+        margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
     }
 </style>
 

@@ -11,8 +11,6 @@
     import {ref} from 'vue';
     import type { BeerCalculatorItemOptions } from './Models/BeerCalculatorItemOptions';
 
-
-
     const onDragStart = (event: DragEvent) => {
        console.log(event);
     }
